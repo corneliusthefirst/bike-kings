@@ -1,0 +1,5 @@
+export const DASHBOARD_PAGE = '/dashboard'
+export const REGISTER_PAGE = '/register'
+export const LOGIN_PAGE = '/login'
+export const LOGIN_URL = '/api/v1/auth/login'
+export const REFRESH_TOKEN_URL = '/api/v1/auth/refresh-tokens'
