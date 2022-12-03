@@ -36,6 +36,7 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^6.4.3",
     "react-scripts": "^5.0.1",
+    "react-scroll-to-bottom": "^4.2.0",
     "react-show-more-text": "^1.6.2",
     "react-stripe-elements": "^6.1.2",
     "reactstrap": "^9.1.5",

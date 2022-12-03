@@ -20,7 +20,6 @@ import { getLoggedInUser } from '../../helpers/authUtils';
 import { ME_SOCKET } from '../../constants/socket.routes';
 import getSocket from '../../api/socket';
 import { useQueryClient } from 'react-query';
-import useMeSocket from '../../api/socket/useMeSocket';
 
 function LeftSidebarMenu(props) {
     const { i18n } = useTranslation();
@@ -37,8 +36,6 @@ function LeftSidebarMenu(props) {
     const toggle = () => setDropdownOpen(!dropdownOpen);
     const toggle2 = () => setDropdownOpen2(!dropdownOpen2);
     const toggleMobile = () => setDropdownOpenMobile(!dropdownOpenMobile);
-
-    useMeSocket()
 
     const toggleTab = tab => {
         props?.setActiveTab(tab)

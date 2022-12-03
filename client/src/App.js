@@ -11,6 +11,7 @@ import LeftSidebarMenu from './components/LeftSidebarMenu/LeftSidebarMenu';
 import Dashboard from './screens/Dashboard/index';
 import { useLocationEffect } from './hooks/actions';
 import ReactGA from 'react-ga'
+import useMeSocket from './api/socket/useMeSocket';
 
 const Main = () => {
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -86,6 +87,9 @@ const Main = () => {
         fetchProducts();
         fetchCart();
     }, []);
+
+    // use socket
+    useMeSocket()
 
     const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 

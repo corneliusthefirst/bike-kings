@@ -9,7 +9,6 @@ import useStyles from "./styles";
 import { isUserAuthenticated } from '../../helpers/authUtils';
 import { useNavigate } from 'react-router-dom';
 
-
 const Index = (props) => {
     const {
         users,
