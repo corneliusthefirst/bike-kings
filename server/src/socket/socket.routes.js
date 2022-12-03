@@ -1,9 +1,11 @@
 const { getConnection } = require('../lib/redisConnection');
+const { generateResponseAI } = require('../services/chatbot.service');
 
 const redis = getConnection();
 const userService = require('../services/user.service');
 
 const SOCKET_ID_IN_ROOM = 'socketIdInRoom-';
+const SOCKET_ID_IN_CHATBOT = 'socketIdInChatBot-';
 const USER = 'user-';
 const ONLINE_USER = 'online-user-';
 const USERS_IN_ROOM = 'usersInRoom-';
@@ -28,6 +30,38 @@ module.exports = [
       ]);
 
       socket.join(roomId);
+    },
+  },
+  {
+    name: 'joinChatBot',
+    controller: async (socket, { userId }) => {
+      const userObject = await userService.getUserById(userId);
+
+      await Promise.all([
+        redis.set(`${SOCKET_ID_IN_CHATBOT}${socket.id}`, userId),
+        redis.set(`${USER}${socket.id}`, JSON.stringify(userObject)),
+      ]);
+      socket.join(userId);
+    },
+  },
+  {
+    name: 'newChatbotMsg',
+    controller: async (socket, { msg }) => {
+      const [roomId] = await Promise.all([
+        redis.get(`${SOCKET_ID_IN_CHATBOT}${socket.id}`),
+        redis.get(`${USER}${socket.id}`),
+      ]);
+      const response = await generateResponseAI(msg);
+      if (roomId) {
+        socket
+          .to(roomId)
+          .emit(
+            'sendMsgResponse',
+            response.answer !== undefined
+              ? { user: response.answer.author, text: response.answer.data.text }
+              : "I am sorry, I don't understand :( "
+          );
+      }
     },
   },
   {
