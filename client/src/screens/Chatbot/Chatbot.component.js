@@ -5,6 +5,7 @@ import InfoBar from './InfoBar/InfoBar';
 import Input from './Input/Input';
 import { getLoggedInUser, getTokens } from "../../helpers/authUtils";
 import getSocket from "../../api/socket";
+import { ROOM_SOCKET } from "../../constants/socket.routes";
 
 const ChatBotRobot = (props) => {
 const  tokens = getTokens()
@@ -12,48 +13,55 @@ const user = getLoggedInUser()
 const {setChatbot} = props;
  const [state, setState] = React.useState({
     messages: [],
-    socket: getSocket(tokens?.access?.token),
-    room: user?.id,
+    socket: null,
+    room: '',
 });
 const [message, setMessage] = React.useState("");
 
 
-useEffect(() => {
-    state.socket.connect();
-    state.socket.emit('joinChatbot', state.room);
-
-    state.socket.on("sendMsgResponse", async (msg) => {
-        state.messages.pop();
-        setState({
-            ...state,
-            messages: [...state.messages]
-        })
-        sendMessage(msg);
-    })
-}, []);
-
-
-const  onMessageWasSent = async (_message) => {
+const handleMessageFromBot = useCallback((msg) => {
+    console.log("sendMsgResponse", msg)
+    state.messages.pop();
     setState({
         ...state,
-        messages: [...state.messages, _message]
+        messages: [...state.messages, msg]
     })
-    state.socket.emit('newChatbotMsg', { msg: _message.text})
-}
+  }, []);
+
+    useEffect(() => {
+        const newSocket = getSocket(tokens?.access?.token)
+            const roomId = `chatbot-${user?.id}`
+            setState({...state, socket: newSocket,  room: roomId})
+            newSocket.connect();
+            newSocket.emit(ROOM_SOCKET.JOIN_ROOM, { roomId: roomId, userId: user?.id });
+        
+            newSocket.on("sendMsgResponse", handleMessageFromBot);
+
+            return () => {
+               if(newSocket){
+                newSocket.disconnect()
+                newSocket.off("sendMsgResponse", handleMessageFromBot)
+               }
+            }
+       
+    }, [tokens?.access?.token,  user?.id, handleMessageFromBot])
 
 
-const sendMessage = (text) => {
-    if (text.length > 0) {
+const sendMessage = useCallback((e) => {
+    e.preventDefault()
+
+    if (message.length > 0) {
         const newMessage = {
             user: user?.username,
-            text: text
+            text: message
         }
         setState({...state,
             messages: [...state.messages, newMessage]
         })
-        onMessageWasSent(newMessage)
+        state.socket.emit(ROOM_SOCKET.ROOM_SEND_MESSAGE, { msg: message, isChatbot: true})
+        setMessage("")
     }
-}
+}, [message, state.socket])
 
 
     console.log('allmessages', state.messages)
