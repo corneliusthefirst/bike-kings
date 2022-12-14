@@ -7,7 +7,7 @@ const InfoBar = ({ room, setChatbot }) => (
       <h3 className='text-white'>{room}</h3>
     </div>
     <div className="rightInnerContainer">
-      <div onClick={() => setChatbot?.(false)} alt="close icon" className='ri-close-line' />
+      <div onClick={() => setChatbot && setChatbot(false)} alt="close icon" className='ri-close-line' />
     </div>
   </div>
 );

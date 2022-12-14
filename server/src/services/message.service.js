@@ -16,12 +16,12 @@ function friendId(user, object) {
  * @returns {Promise<User>}
  */
 const createMessage = async (user, body) => {
-  const { roomId, text } = body;
+  const { roomId, text, previousMessage } = body;
   const roomMatch = await Room.findOne({
     _id: roomId,
   });
 
-  if (roomMatch && !roomMatch.members) {
+  if (roomMatch && !roomMatch.members && roomId.split('-')[0] !== 'chatbot') {
     const room = await Room.findOne({
       $or: [{ sender: user._id }, { receiver: user._id }],
 
@@ -46,9 +46,10 @@ const createMessage = async (user, body) => {
   }
 
   const message = await Message.create({
-    senderId: user._id,
+    senderId: user._id || user.id,
     roomId,
     message: text,
+    previousMessage,
   });
 
   return message;
@@ -147,9 +148,21 @@ const deleteMessage = async (user, messageId) => {
   return message;
 };
 
+/**
+ * delete a message
+ * @param {ObjectId} roomId
+ * @returns {Promise<User>}
+ */
+const deleteAllMessages = async (user, roomId) => {
+  await Message.deleteMany({
+    roomId,
+  });
+};
+
 module.exports = {
   createMessage,
   queryMessages,
   editMessage,
   deleteMessage,
+  deleteAllMessages,
 };

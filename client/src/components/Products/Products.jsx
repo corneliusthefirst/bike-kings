@@ -7,14 +7,35 @@ import ChatBotRobot from '../../screens/Chatbot/Chatbot.component';
 import { useState } from 'react';
 import { SvgIcon } from '@material-ui/core';
 import { ReactComponent as ChatBotIconSvg } from "../../assets/images/chatbot.svg";
+import { useEffect } from 'react';
+import { getLoggedInUser } from '../../helpers/authUtils';
+import { getOrCreateRoom } from '../../api/room';
+import useMessageSocket from '../../api/socket/useMessageSocket';
+import { ROOM_MESSAGES_KEY } from '../../constants/queryKeys';
 
 const ChatBotIcon = (props) => {
+  const [room, setRoom] = useState({})
+  useEffect(() => {
+    init()
+ }, [])
+
+
+
+ const init = async () => {
+     const { id }= getLoggedInUser()
+     const roomCreated = await getOrCreateRoom(id)
+     setRoom(roomCreated)
+     console.log('roomCreated', roomCreated)
+ }
+
+ useMessageSocket(room?.id, ROOM_MESSAGES_KEY(room?.id))
+
   return (
       <div className="chatbot-icon">
-        <SvgIcon onClick={() => props.setChatbot(!props.chatbot)} >
+        <SvgIcon onClick={() => props?.setChatbot(!props.chatbot)} >
           <ChatBotIconSvg />
         </SvgIcon>
-        {props.chatbot && <ChatBotRobot  setChatbot={props.setChatbot}/>}
+        {props?.chatbot && <ChatBotRobot room={room} setChatbot={props?.setChatbot}/>}
       </div>
   )
 }

@@ -93,7 +93,6 @@ function UserChat(props) {
                         <div style={
                                 {height: "calc(100vh - 200px)",flexDirection: "column", justifyContent: "flex-end", overflowY: "auto", overflowX: "hidden"}
                             }
-          
                             className=" w-full p-3 p-lg-4"
                             id="messages">
 

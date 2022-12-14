@@ -1,33 +1,33 @@
 import React from 'react';
-import { getLoggedInUser } from '../../../../helpers/authUtils';
-
 import './Message.css';
+import { SvgIcon } from '@material-ui/core';
+import { ReactComponent as ChatBotIconSvg } from "../../../../assets/images/chatbot.svg";
 
-const Message = ({ message: { text, user } }) => {
+const Message = ({ message}) => {
   let isSentByCurrentUser = false;
-  const currentUser = getLoggedInUser()
 
-
-  if(user === currentUser?.username) {
+  if(!message?.previousMessage) {
     isSentByCurrentUser = true;
+
   }
 
   return (
     isSentByCurrentUser
       ? (
         <div className="messageContainer justifyEnd">
-          <p className="sentText pr-10">{user}</p>
-          <div className="messageBox backgroundBlue">
-            <p className="messageText colorWhite">{text}</p>
+          <div className="messageBox  bg-primary">
+            <p className="messageText text-white">{message?.message}</p>
           </div>
         </div>
         )
         : (
           <div className="messageContainer justifyStart">
-            <div className="messageBox backgroundLight">
-              <p className="messageText colorDark">{text}</p>
+                  <SvgIcon >
+              <ChatBotIconSvg />
+            </SvgIcon>
+            <div className="messageBox bg-gray-100">
+              <p className="messageText text-black">{message?.message}</p>
             </div>
-            <p className="sentText pl-10 ">{user}</p>
           </div>
         )
   );

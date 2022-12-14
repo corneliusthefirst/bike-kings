@@ -27,6 +27,10 @@ const roomRequestSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isChatbot: {
+      type: Boolean,
+      default: false,
+    },
     // for groups
     groupName: {
       type: String,

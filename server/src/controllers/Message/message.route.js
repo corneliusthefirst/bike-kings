@@ -12,5 +12,6 @@ router.get('/:roomId', auth(), messageController.getMessages);
 router.post('/send-message', auth(), upload.none(), messageController.sendMessage);
 router.put('/edit-message/:messageId', auth(), validate(validations.editMessage), messageController.editMessage);
 router.delete('/:messageId', auth(), messageController.deleteMessage);
+router.delete('/delete-all-messages/:roomId', auth(), messageController.deleteAllMessages);
 
 module.exports = router;

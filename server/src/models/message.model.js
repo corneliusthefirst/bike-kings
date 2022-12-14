@@ -24,6 +24,9 @@ const messageSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    previousMessage: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -17,10 +17,12 @@ export default function useMessageSocket(roomId, key) {
       socket = getSocket(tokens?.access?.token)
 
       if (socket) {
+        console.log('roomNSocketInit', roomId)
         if (roomId){
           socket.emit(ROOM_SOCKET.JOIN_ROOM, { roomId, userId: user?.id })
         }
         socket.on(ROOM_SOCKET.ROOM_NEW_MESSAGE, (newMessage) => {
+          console.log('roomNewMessage', newMessage)
           cache.setQueryData(ROOM_MESSAGES_KEY(roomId), (d) => {
             if (d?.pages[0]?.results[0]?.id !== newMessage.id) {
               d?.pages[0]?.results.unshift(newMessage)

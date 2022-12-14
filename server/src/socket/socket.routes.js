@@ -1,11 +1,12 @@
+/* eslint-disable no-console */
 const { getConnection } = require('../lib/redisConnection');
 const { generateResponseAI } = require('../services/chatbot.service');
+const { createMessage } = require('../services/message.service');
 
 const redis = getConnection();
 const userService = require('../services/user.service');
 
 const SOCKET_ID_IN_ROOM = 'socketIdInRoom-';
-const SOCKET_ID_IN_CHATBOT = 'socketIdInChatBot-';
 const USER = 'user-';
 const ONLINE_USER = 'online-user-';
 const USERS_IN_ROOM = 'usersInRoom-';
@@ -22,7 +23,6 @@ module.exports = [
     name: 'joinRoom',
     controller: async (socket, { roomId, userId }) => {
       const userObject = await userService.getUserById(userId);
-
       await Promise.all([
         redis.set(`${SOCKET_ID_IN_ROOM}${socket.id}`, roomId),
         redis.set(`${USER}${socket.id}`, JSON.stringify(userObject)),
@@ -33,54 +33,42 @@ module.exports = [
     },
   },
   {
-    name: 'joinChatBot',
-    controller: async (socket, { userId }) => {
-      const userObject = await userService.getUserById(userId);
-
-      await Promise.all([
-        redis.set(`${SOCKET_ID_IN_CHATBOT}${socket.id}`, userId),
-        redis.set(`${USER}${socket.id}`, JSON.stringify(userObject)),
-      ]);
-      socket.join(userId);
-    },
-  },
-  {
-    name: 'newChatbotMsg',
-    controller: async (socket, { msg }) => {
-      const [roomId] = await Promise.all([
-        redis.get(`${SOCKET_ID_IN_CHATBOT}${socket.id}`),
-        redis.get(`${USER}${socket.id}`),
-      ]);
-      const response = await generateResponseAI(msg);
-      if (roomId) {
-        socket
-          .to(roomId)
-          .emit(
-            'sendMsgResponse',
-            response.answer !== undefined
-              ? { user: response.answer.author, text: response.answer.data.text }
-              : "I am sorry, I don't understand :( "
-          );
-      }
-    },
-  },
-  {
     name: 'roomSendMessage',
-    controller: async (socket, { msg, receiverId }) => {
+    controller: async (socket, { msg, receiverId, isChatbot }) => {
       const [roomId, userObject] = await Promise.all([
         redis.get(`${SOCKET_ID_IN_ROOM}${socket.id}`),
         redis.get(`${USER}${socket.id}`),
       ]);
 
-      const newMessage = msg;
-      newMessage.senderId = JSON.parse(userObject);
+      console.log('roomSendMessage0', roomId, msg, userObject);
 
-      if (roomId) socket.to(roomId).emit('roomNewMessage', newMessage);
+      if (isChatbot) {
+        console.log('roomSendMessage', msg, roomId, 'userObject', JSON.parse(userObject));
 
-      const totalUsers = await redis.hGetAll(`${USERS_IN_ROOM}${roomId}`);
+        // send  response socket first the user message
+        const newMessage = msg;
+        newMessage.senderId = JSON.parse(userObject);
+        socket.emit('roomNewMessage', newMessage);
 
-      if (Object.keys(totalUsers).length === 1) {
-        socket.to(receiverId).emit('roomOpened');
+        // get response from chatbot
+        const response = await generateResponseAI(msg.message);
+        const botMessage = await createMessage(JSON.parse(userObject), {
+          text: response.answer,
+          roomId,
+          previousMessage: msg.message,
+        });
+        socket.emit('roomNewMessage', botMessage);
+      } else {
+        const newMessage = msg;
+        newMessage.senderId = JSON.parse(userObject);
+
+        if (roomId) socket.to(roomId).emit('roomNewMessage', newMessage);
+
+        const totalUsers = await redis.hGetAll(`${USERS_IN_ROOM}${roomId}`);
+
+        if (Object.keys(totalUsers).length === 1 && receiverId) {
+          socket.to(receiverId).emit('roomOpened');
+        }
       }
     },
   },

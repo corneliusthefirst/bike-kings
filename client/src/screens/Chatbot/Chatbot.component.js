@@ -1,78 +1,77 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect } from "react";
+import React, {useCallback, useEffect, useRef } from "react";
 import Messages from './Messages/Messages';
 import InfoBar from './InfoBar/InfoBar';
-import Input from './Input/Input';
-import { getLoggedInUser, getTokens } from "../../helpers/authUtils";
-import getSocket from "../../api/socket";
-import { ROOM_SOCKET } from "../../constants/socket.routes";
+import {getLoggedInUser} from "../../helpers/authUtils";
+import {ROOM_MESSAGES_KEY} from "../../constants/queryKeys";
+import {useInfiniteQuery} from "react-query";
+import {getMessages} from "../../api/messages";
+import ChatInput from "../Dashboard/UserChat/Input";
+import {ReactComponent as LoadingCircle} from '../../assets/images/loading_circle_icon.svg'
 
 const ChatBotRobot = (props) => {
-const  tokens = getTokens()
-const user = getLoggedInUser()
-const {setChatbot} = props;
- const [state, setState] = React.useState({
-    messages: [],
-    socket: null,
-    room: '',
-});
-const [message, setMessage] = React.useState("");
+    const {room} = props
+    const user = getLoggedInUser()
+    const observer = useRef()
+    const {
+        data,
+        isLoading,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage
+    } = useInfiniteQuery(ROOM_MESSAGES_KEY(room?.id), async ({pageParam}) => {
+        const data = await getMessages(room?.id, pageParam)
+        return data
 
-
-const handleMessageFromBot = useCallback((msg) => {
-    console.log("sendMsgResponse", msg)
-    state.messages.pop();
-    setState({
-        ...state,
-        messages: [...state.messages, msg]
-    })
-  }, []);
-
-    useEffect(() => {
-        const newSocket = getSocket(tokens?.access?.token)
-            const roomId = `chatbot-${user?.id}`
-            setState({...state, socket: newSocket,  room: roomId})
-            newSocket.connect();
-            newSocket.emit(ROOM_SOCKET.JOIN_ROOM, { roomId: roomId, userId: user?.id });
-        
-            newSocket.on("sendMsgResponse", handleMessageFromBot);
-
-            return () => {
-               if(newSocket){
-                newSocket.disconnect()
-                newSocket.off("sendMsgResponse", handleMessageFromBot)
-               }
-            }
-       
-    }, [tokens?.access?.token,  user?.id, handleMessageFromBot])
-
-
-const sendMessage = useCallback((e) => {
-    e.preventDefault()
-
-    if (message.length > 0) {
-        const newMessage = {
-            user: user?.username,
-            text: message
+    }, {
+        getNextPageParam: (lastPage) => {
+            const {page, totalPages} = lastPage
+            return page < totalPages ? page + 1 : undefined
         }
-        setState({...state,
-            messages: [...state.messages, newMessage]
-        })
-        state.socket.emit(ROOM_SOCKET.ROOM_SEND_MESSAGE, { msg: message, isChatbot: true})
-        setMessage("")
-    }
-}, [message, state.socket])
+    })
+
+    const lastMessageRef = useCallback((node) => {
+        if (isLoading)
+            return
+        if (observer.current)
+            observer.current.disconnect()
+            observer.current = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && hasNextPage) {
+                    fetchNextPage()
+                }
+            })
+
+        if (node)
+            observer.current.observe(node)
+
+    }, [isLoading, hasNextPage, fetchNextPage])
 
 
-    console.log('allmessages', state.messages)
+    const messages = data ? data.pages.flatMap((page) => page?.results ?? []) : []
 
-        return (
-            <div className="chatbot">
-                <InfoBar room={"ChatBox"} setChatbot={setChatbot}/>
-                <Messages messages={state.messages} />
-                <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
-            </div>
-        );
+    console.log('messages', messages)
+
+    return (
+        <div className="chatbot">
+            <InfoBar room={"ChatBox"}
+                setChatbot={props?.setChatbot}/>
+
+          <Messages lastMessageRef={lastMessageRef}
+                messages={messages}/> {
+            isLoading || (isFetchingNextPage && messages.length) ? (
+                <div className="flex self-end">
+                    <LoadingCircle className='animate-spin mt-2 h-5 w-5 text-black mx-auto'/>
+                </div>
+            ) : null
+        }
+   
+            <ChatInput room={
+                    {id: room?.id}
+                }
+                user={user}
+                isChatbot={true}/>
+        </div>
+    );
 }
 
 export default ChatBotRobot;

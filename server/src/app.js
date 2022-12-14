@@ -10,6 +10,8 @@ const { jwtStrategy } = require('./config/passport');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
+const { trainChatBotIA } = require('./services/chatbot.service');
+
 const app = express();
 
 // set security HTTP headers
@@ -48,6 +50,9 @@ app.use(compression());
 // jwt authentication
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
+
+// Train the bot
+trainChatBotIA();
 
 // v1 api routes
 app.use('/api/v1', routes);

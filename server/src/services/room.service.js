@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const httpStatus = require('http-status');
 const { FriendRequest, Room } = require('../models');
 const { FRIEND_STATUS } = require('../config/constants/modelsConstants');
@@ -13,7 +14,24 @@ const { userService } = require('.');
  */
 const getOrCreateRoom = async (user, body) => {
   const { id } = body;
+  console.log('user._id', id, user._id);
+  if (id.toString() === user._id.toString()) {
+    const room = await Room.findOne({
+      sender: user._id,
+      receiver: user._id,
+      isChatbot: true,
+    });
 
+    if (room) return room;
+
+    const newRoom = await Room.create({
+      sender: user._id,
+      receiver: user._id,
+      isChatbot: true,
+    });
+
+    return newRoom;
+  }
   const friendShip = await FriendRequest.findOne({
     $or: [
       {

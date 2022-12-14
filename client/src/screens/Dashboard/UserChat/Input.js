@@ -10,7 +10,7 @@ import { sendMessage } from '../../../api/messages';
 import { ROOM_MESSAGES_KEY } from '../../../constants/queryKeys';
 
 function ChatInput(props) {
-    const {room, user} = props;
+    const {room, user, isChatbot=false} = props;
     const [text, setText] = useState("");
     const [isOpen, setisOpen] = useState(false);
     const tokens = getTokens()
@@ -69,13 +69,14 @@ function ChatInput(props) {
           console.log('sendMessageResult', result, user)
           socket.emit(ROOM_SOCKET.ROOM_SEND_MESSAGE, {
             msg: result,
-            receiverId: friendObject(
+            receiverId: isChatbot ? null : friendObject(
               user,
               room,
               'sender.id',
               'sender',
               'receiver'
             ).id,
+            isChatbot: isChatbot,
           })
   
           setText('')
@@ -99,9 +100,9 @@ function ChatInput(props) {
 
     return (
         <React.Fragment>
-            <div className="p-3 p-lg-4 border-top mb-0">
-                <Form >
-                    <Row className='g-0'>
+            <div style={{position: 'absolute', bottom: 0, maxWidth: `calc(100vw - ${450}px)`}} className="w-full flex pl-2 py-2 border-top bg-white">
+                <Form className='w-full'>
+                    <Row className='w-full' >
                         <Col>
                             <div>
                                 <Input type="text" value={text} onChange={(e) => handleChange(e)} className="form-control form-control-lg bg-light border-light" placeholder="Enter Message..." />
@@ -110,7 +111,7 @@ function ChatInput(props) {
                         <Col xs="auto">
                             <div className="chat-input-links ms-md-2">
                                 <ul className="list-inline mb-0 ms-0">
-                                    <li className="list-inline-item">
+                                  {!isChatbot &&  <li className="list-inline-item">
                                         <ButtonDropdown className="emoji-dropdown" direction="up" isOpen={isOpen} toggle={toggle}>
                                             <DropdownToggle id="emoji" color="link" className="text-decoration-none font-size-16 btn-lg waves-effect">
                                                 <i className="text-2xl ri-emotion-happy-line"></i>
@@ -122,7 +123,7 @@ function ChatInput(props) {
                                         <UncontrolledTooltip target="emoji" placement="top">
                                             Emoji
                                         </UncontrolledTooltip>
-                                    </li>
+                                    </li>}
                                     <li className="list-inline-item">
                                         <Button onClick={onaddMessage}  color="primary" className="font-size-16 btn-lg chat-send waves-effect waves-light">
                                             <i className="ri-send-plane-2-fill"></i>
