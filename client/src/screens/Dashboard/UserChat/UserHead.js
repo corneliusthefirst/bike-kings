@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Dropdown, DropdownMenu, DropdownItem, DropdownToggle, Button, Input, Row, Col, Modal, ModalBody } from "reactstrap";
+import { Dropdown, DropdownMenu, DropdownItem, DropdownToggle, Input, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { openUserSidebar, setFullUser } from "../../../redux/index";
+import { openUserSidebar } from "../../../redux/index";
 import { friendObject } from '../../../hooks/actions';
+import { isAdmin } from '../../../helpers/authUtils';
+import { closeDMRoom } from '../../../api/room';
+import { closeGroupApi } from '../../../api/group';
 
 
 function UserHead(props) {
@@ -46,12 +49,27 @@ function UserHead(props) {
         }
     }
 
-    function deleteMessage() {
-        let allUsers = props.users;
-        let copyallUsers = allUsers;
-        copyallUsers[props.active_user].messages = [];
+    async  function deleteRoom() {
+      if(state.room?.groupName && state.room.groupName.length > 0 && state.room.members.length > 0){
+            const data = await closeGroupApi(state.room.id);
+            console.log("dataDeletedGroup", data)
+            if(data){
+                props?.setCurrentChat({...currentChat, room: data})
+            }
+      }else{
+        const data = await closeDMRoom(state.room.id);
+        console.log("dataDeleted", data)
+        if(data){
+            props?.setCurrentChat({...currentChat, room: data})
+        }
+      }
+    }
 
-        props.setFullUser(copyallUsers);
+    const showDeleteOption = () => {
+        if (state.room.groupName) {
+            return isAdmin();
+        }
+        return true;
     }
 
     return (
@@ -100,17 +118,17 @@ function UserHead(props) {
                                 </Dropdown>
                             </li>
 
-                            <li className="list-inline-item">
+                        {showDeleteOption() && <li className="list-inline-item">
                                 <Dropdown isOpen={dropdownOpen1} toggle={toggle1}>
                                     <DropdownToggle className="btn nav-btn " color="none" type="button" >
                                         <i className="ri-more-fill"></i>
                                     </DropdownToggle>
                                     <DropdownMenu className="dropdown-menu-end bg-white">
                                         <DropdownItem className="d-block d-lg-none user-profile-show" onClick={(e) => openUserSidebar(e)}>View profile <i className="ri-user-2-line float-end text-muted"></i></DropdownItem>
-                                        <DropdownItem onClick={(e) => deleteMessage(e)}>Delete <i className="ri-delete-bin-line float-end text-muted"></i></DropdownItem>
+                                        <DropdownItem onClick={(e) => deleteRoom(e)}>Delete <i className="ri-delete-bin-line float-end text-muted"></i></DropdownItem>
                                     </DropdownMenu>
                                 </Dropdown>
-                            </li>
+                            </li>}
 
                         </ul>
                     </Col>
@@ -127,4 +145,4 @@ const mapStateToProps = (state) => {
     return { ...state.Layout, users, active_user, defaultChat};
 };
 
-export default connect(mapStateToProps, { openUserSidebar, setFullUser })(UserHead);
+export default connect(mapStateToProps, { openUserSidebar})(UserHead);

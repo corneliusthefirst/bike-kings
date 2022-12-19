@@ -24,8 +24,8 @@ const messageSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    previousMessage: {
-      type: String,
+    isBotMessage: {
+      type: Boolean,
     },
   },
   {

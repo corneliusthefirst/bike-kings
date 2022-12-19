@@ -21,7 +21,7 @@ import { GetAllGroups } from '../../../../hooks/reactQuery';
 function GroupsComponent(props) {
     const {t} = props;
     const [modal, setModal] = useState(false);
-    const [state, setState] = useState({groupName: ''});
+    const [state, setState] = useState({groupName: '', groupLimit: 0});
     const {data: groups} = GetAllGroups()
     const [allGroups, setGroups] = useState(groups || []);
     const isadmin = isAdmin()
@@ -30,15 +30,19 @@ function GroupsComponent(props) {
         setGroups(groups)
     }, [groups]);
 
-    const handleChangeGroupName = (e) => {
-        setState({groupName: e.target.value});
+    const handleChange = (e) => {
+        setState({
+            ...state,
+            [e.target.name]: e.target.value
+        })
     }
     const hideModal = () => {
         setModal(false);
     }
 
     const createGroup = () => {
-        createGroupApi(state.groupName).then(async (res) => {
+        console.log("statehere", state)
+        createGroupApi(state.groupName, parseInt(state.groupLimit, 10)).then(async (res) => {
             const data= await getAllGroupsApi()
             hideModal();
             setGroups(data);
@@ -93,10 +97,20 @@ function GroupsComponent(props) {
                                     value={
                                         state.groupName
                                     }
+                                    name="groupName"
                                     onChange={
-                                        (e) => handleChangeGroupName(e)
+                                        (e) => handleChange(e)
                                     }
                                     placeholder="Enter Group Name"/>
+                                  <Input type="numeric" className="form-control mt-4" id="addgroupname-input"
+                                    value={
+                                        state.groupLimit
+                                    }
+                                    name="groupLimit"
+                                    onChange={
+                                        (e) => handleChange(e)
+                                    }
+                                    placeholder="Enter Max Number of Members"/>
                             </div>
                         </Form>
                     </ModalBody>

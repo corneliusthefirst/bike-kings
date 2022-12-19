@@ -10,6 +10,7 @@ const getGroupById = {
 const createGroup = {
   body: Joi.object().keys({
     groupName: Joi.string(),
+    groupLimit: Joi.number(),
   }),
 };
 const joinGroup = {

@@ -6,7 +6,7 @@ import { ReactComponent as ChatBotIconSvg } from "../../../../assets/images/chat
 const Message = ({ message}) => {
   let isSentByCurrentUser = false;
 
-  if(!message?.previousMessage) {
+  if(!message?.isBotMessage) {
     isSentByCurrentUser = true;
 
   }

@@ -45,8 +45,7 @@ const UserItem = (props) => {
       try{
         const {username, shortId, status} = item
       if(status === 'AVAILABLE' && username && shortId) {
-        const result = await sendFriendRequest({ username: username, shortId: shortId })
-        console.log("result", result)
+       await sendFriendRequest({ username: username, shortId: shortId })
         ReactGA.event({
             category: 'Communication Request',
             action: 'Send Communication Request',
@@ -137,10 +136,10 @@ function Users(props) {
             <SimpleBar style={{ maxHeight: "100%" }} className="item-message-list">
 
          <div>
-         <h4 className="ml-6 mb-4 mt-2">Conseillers</h4>        
+         <h4 className="ml-6 mb-4 mt-2">Conseillers</h4>
 <ul className="list-unstyled item-list item-user-list pr-3 h-64 overflow-y-scroll " id="item-list">
     {
-        (allUsers?.filter(item => item.role === 'admin'))?.map((item, key) =>{
+        (allUsers?.filter(item => item.role === 'admin' && item.id !== user.id))?.map((item, key) =>{
         
             return (    <li key={key} id={"allUsers" + key} > 
             <UserItem setCurrentChat={props.setCurrentChat} setActiveTab={props.setActiveTab} item={item} user={user} />

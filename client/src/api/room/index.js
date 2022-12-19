@@ -8,6 +8,6 @@ export const getOpenRoomsApi =  () => {
   return client.get('/api/v1/rooms/open-rooms')
 }
 
-export const closeDMApi = (id) => {
+export const closeDMRoom = (id) => {
   return client.put(`/api/v1/rooms/close-room/${id}`)
 }

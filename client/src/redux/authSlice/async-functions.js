@@ -43,9 +43,9 @@ const login = createAsyncThunk('login', async ({ email, password, navigate, setI
 const logout = createAsyncThunk('logout', async ({ navigate, refreshToken, setIsAuthenticated }) => {
     try {
         let response  = null
-        response = await create(`${AUTH_URL}/logout`, { refreshToken: refreshToken });
         localStorage.removeItem("user");
         localStorage.removeItem("tokens");
+        response = await create(`${AUTH_URL}/logout`, { refreshToken: refreshToken });
         setIsAuthenticated(false)
         ReactGA.event({
             category: 'User',

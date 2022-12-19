@@ -5,7 +5,7 @@ import InfoBar from './InfoBar/InfoBar';
 import {getLoggedInUser} from "../../helpers/authUtils";
 import {ROOM_MESSAGES_KEY} from "../../constants/queryKeys";
 import {useInfiniteQuery} from "react-query";
-import {getMessages} from "../../api/messages";
+import {deleteAllMessages, getMessages} from "../../api/messages";
 import ChatInput from "../Dashboard/UserChat/Input";
 import {ReactComponent as LoadingCircle} from '../../assets/images/loading_circle_icon.svg'
 
@@ -29,6 +29,12 @@ const ChatBotRobot = (props) => {
             return page < totalPages ? page + 1 : undefined
         }
     })
+
+    useEffect(() => {
+        return (() => {
+            deleteAllMessages(room?.id)
+        })
+    }, [data])
 
     const lastMessageRef = useCallback((node) => {
         if (isLoading)

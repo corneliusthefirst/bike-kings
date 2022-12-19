@@ -47,17 +47,24 @@ module.exports = [
 
         // send  response socket first the user message
         const newMessage = msg;
-        newMessage.senderId = JSON.parse(userObject);
+        const usrObj = JSON.parse(userObject);
+        newMessage.senderId = usrObj;
         socket.emit('roomNewMessage', newMessage);
 
         // get response from chatbot
-        const response = await generateResponseAI(msg.message);
-        const botMessage = await createMessage(JSON.parse(userObject), {
-          text: response.answer,
-          roomId,
-          previousMessage: msg.message,
-        });
-        socket.emit('roomNewMessage', botMessage);
+        if (!msg.isBotMessage) {
+          const response = await generateResponseAI(msg.message);
+          const botMessage = await createMessage(
+            { ...usrObj, _id: usrObj.id },
+            {
+              text: response.answer,
+              roomId,
+              isBotMessage: true,
+              isChatbot: true,
+            }
+          );
+          socket.emit('roomNewMessage', botMessage);
+        }
       } else {
         const newMessage = msg;
         newMessage.senderId = JSON.parse(userObject);

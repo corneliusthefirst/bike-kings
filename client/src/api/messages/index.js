@@ -17,3 +17,7 @@ export const getMessages = (roomId, page) => {
 export const deleteMessage = (messageId) => {
   return client.delete(`/api/v1/messages/${messageId}`)
 }
+
+export const deleteAllMessages = (roomId) => {
+  return client.delete(`/api/v1/messages/delete-all-messages/${roomId}`)
+}

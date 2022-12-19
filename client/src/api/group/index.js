@@ -16,8 +16,8 @@ export const closeGroupApi = (id) => {
   return client.put(`/api/v1/groups/close-group/${id}`)
 }
 
-export const createGroupApi = (name) => {
-  return client.create('/api/v1/groups/create-group', { groupName: name })
+export const createGroupApi = (name, limit) => {
+  return client.create('/api/v1/groups/create-group', { groupName: name, groupLimit: limit })
 }
 
 export const joinGroupApi = (id) => {

@@ -35,6 +35,10 @@ const roomRequestSchema = mongoose.Schema(
     groupName: {
       type: String,
     },
+    groupLimit: {
+      type: Number,
+      default: 3,
+    },
     members: [
       {
         type: mongoose.SchemaTypes.ObjectId,

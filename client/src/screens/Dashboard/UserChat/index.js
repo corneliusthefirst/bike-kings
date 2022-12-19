@@ -22,7 +22,7 @@ function checkSameTime(message1, message2) {
 }
 
 function UserChat(props) {
-    const {currentChat} = props;
+    const {currentChat,  setCurrentChat } = props;
     const {room, user} = currentChat || {};
     const observer = useRef()
     const [currentMsgEditId, setCurrentMsgEditId] = useState(null)
@@ -76,6 +76,9 @@ function UserChat(props) {
     const setEditMessage = (msgId) => {
         setCurrentMsgEditId(msgId)
     }
+    const showInput = () => {
+        return room.roomDeletedByReceiver === false && room.roomDeletedBySender === false
+    }
 
     return (
         <React.Fragment>
@@ -88,7 +91,7 @@ function UserChat(props) {
                     }>
 
 
-                        <UserHead currentChat={currentChat} />
+                        <UserHead setCurrentChat={setCurrentChat}  currentChat={currentChat} />
 
                         <div style={
                                 {height: "calc(100vh - 200px)",flexDirection: "column", justifyContent: "flex-end", overflowY: "auto", overflowX: "hidden"}
@@ -160,8 +163,14 @@ function UserChat(props) {
                             </div>
                         </div>
 
-                        <Input room={room}
-                            user={user}/>
+                    {showInput() ?    <Input room={room}
+                            user={user}/> :
+                             <div style={{position: 'absolute', bottom: 0, maxWidth: `calc(100vw - ${450}px)`}} className="w-full flex pl-2 pt-5 pb-3 border-top bg-white items-center justify-center">
+                                 <p className='text-red-400 text-lg font-semibold'>{
+                                    room.groupName ? '###- This group has been deleted -###' :
+                                        (room.roomDeletedBySender ? 'You deleted this chat' : 'This chat was deleted by the other user')
+                                 }</p>
+                             </div>}
 
                     </div>
 

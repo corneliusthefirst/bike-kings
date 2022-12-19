@@ -17,8 +17,8 @@ const UserItem = (props) => {
 
     async function openConversation() {
         if(isMember){
-            props.setCurrentChat({room: item , user: user})
-            props.setStoreCurrentChat({room: item, user: user})
+            props?.setCurrentChat({room: item , user: user})
+            props?.setStoreCurrentChat({room: item, user: user})
         }
       }
 
@@ -82,6 +82,11 @@ const Groups = (props) =>  {
     }
 
     const joinGroup = async (item, setIsLoading) => {
+        console.log("item", item)
+        if(item.members && item.groupLimit && item.members.length >= item.groupLimit){
+            alert('Group limit reached.You cannot join this bikeHub')
+            return
+        }
         setIsLoading(true)
         try{
             await joinGroupApi(item.id)

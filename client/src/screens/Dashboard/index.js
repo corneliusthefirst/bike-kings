@@ -39,7 +39,7 @@ const Index = (props) => {
             <div className='flex flex-1 flex-row'>
                 {/* chat left sidebar */}
                 <ChatLeftSidebar currentChat={currentChat} setCurrentChat={setCurrentChat} /> {/* user chat */}
-                <UserChat recentChatList={users} currentChat={currentChat} userSidebar={userSidebar} />
+                <UserChat recentChatList={users} currentChat={currentChat} setCurrentChat={setCurrentChat}  userSidebar={userSidebar} />
             </div>
         </main>
     );

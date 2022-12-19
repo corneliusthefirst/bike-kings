@@ -170,7 +170,7 @@ const closeRoom = async (user, roomId) => {
  * @returns {Promise<User>}
  */
 const createGroup = async (user, body) => {
-  const { groupName } = body;
+  const { groupName, groupLimit = 3 } = body;
 
   if (user.role !== 'admin') {
     throw new ApiError(httpStatus.NOT_ACCEPTABLE, `only admins are allowed to create groups!`);
@@ -181,6 +181,7 @@ const createGroup = async (user, body) => {
   if (!groupExist) {
     await Room.create({
       groupName,
+      groupLimit,
       sender: user._id,
       members: [user._id],
     });
@@ -250,7 +251,7 @@ const closeGroup = async (user, groupId) => {
   }
 
   if (member.role === 'admin') {
-    group.roomDeleted = true;
+    group.roomDeletedBySender = true;
   }
   await group.save();
 
