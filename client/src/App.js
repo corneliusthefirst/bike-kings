@@ -1,7 +1,8 @@
 import './index.scss'
 import "./assets/scss/themes.scss";
 import React, {useState, useEffect} from 'react';
-import {CssBaseline} from '@material-ui/core';
+import {CssBaseline, Snackbar} from '@material-ui/core';
+import {Alert} from '@material-ui/lab/';
 import {BrowserRouter as Router,  Routes, Route,  Navigate} from 'react-router-dom';
 import {Navbar, Cart, Checkout} from './components';
 import {Login, Register} from './screens';
@@ -12,6 +13,9 @@ import Dashboard from './screens/Dashboard/index';
 import { useLocationEffect } from './hooks/actions';
 import ReactGA from 'react-ga'
 import useMeSocket from './api/socket/useMeSocket';
+import config from './config';
+import moment from 'moment';
+
 
 const Main = () => {
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -20,6 +24,16 @@ const Main = () => {
     const [order, setOrder] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [notifMessage, setNotifMessage] = useState('');
+    const [open, setOpen] = useState(false);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setOpen(false);
+      };
+    
 
     useLocationEffect((location) => {
         console.log('changed to ' + location.pathname)
@@ -91,13 +105,47 @@ const Main = () => {
     // use socket
     useMeSocket()
 
+    //Listen to server send events on rendezvous created and show a toast
+    useEffect(() => {
+        const sse = new EventSource(`${config.API_URL}/api/v1/rendezvous/last-rendezvous`);
+
+        sse.addEventListener('open', () => {
+            console.log('SSE opened!');
+        });
+
+        sse.addEventListener('message', (e) => {
+            //update last rendezvous to local storage
+            const rendezvousBefore = JSON.parse(localStorage.getItem('lastRendezvous'));
+            const currentRendevous = JSON.parse(e.data);
+
+            if(rendezvousBefore && rendezvousBefore.id !== currentRendevous.id){
+            //notify user
+            setNotifMessage(`A new RendezVous was added by ${currentRendevous.userId.username} for ${moment(currentRendevous.date).format('	LL')}`);
+            setOpen(true);
+            localStorage.setItem('lastRendezvous', JSON.stringify(currentRendevous));
+            }
+            else{
+            //update local storage
+            localStorage.setItem('lastRendezvous', JSON.stringify(currentRendevous));
+            }
+        });
+
+        sse.addEventListener('error', (e) => {
+            console.error('Error: ',  e);
+        });
+
+        return () => {
+            sse.close();
+        };
+    }, []);
+
     const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
 
     if (!isUserAuthenticated()) {
         return (
                 <div className='flex flex-1'>
                 <CssBaseline/>
-       
+
        <Navbar totalItems={
                   cart.total_items
               }
@@ -150,6 +198,17 @@ const Main = () => {
                         </ Routes>
                     </div>
                 </div>
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                >
+                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }} >
+                      {notifMessage}
+                    </Alert>
+                </Snackbar>
+
             </div>
 
     ) 

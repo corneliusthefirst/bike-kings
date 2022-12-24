@@ -5,6 +5,9 @@ const createMessage = {
   body: Joi.object().keys({
     text: Joi.string().required(),
     roomId: Joi.string().custom(objectId),
+    isBotMessage: Joi.boolean(),
+    isChatbot: Joi.boolean(),
+    suffix: Joi.string(),
   }),
 };
 

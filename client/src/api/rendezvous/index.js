@@ -13,6 +13,12 @@ export const deleteAllUserRendezVousApi = (id) => {
 }
 
 export const createRendezVousApi = (date) => {
-  return client.create('/api/v1/rendezvous/create-rendezvous', { date})
+  const type = localStorage.getItem('typeUsage')
+  return client.create('/api/v1/rendezvous/create-rendezvous', { date, type: type || 'DEFAULT' })
 }
+
+export const getAllRendezVousPerType = (type) => {
+  return client.create(`/api/v1/rendezvous/all-rendezvous/type/${type}`)
+}
+
 

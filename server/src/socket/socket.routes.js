@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 const { getConnection } = require('../lib/redisConnection');
-const { generateResponseAI } = require('../services/chatbot.service');
-const { createMessage } = require('../services/message.service');
+const { handleChatbotResponse } = require('../services/chatbot.service');
 
 const redis = getConnection();
 const userService = require('../services/user.service');
@@ -53,17 +52,7 @@ module.exports = [
 
         // get response from chatbot
         if (!msg.isBotMessage) {
-          const response = await generateResponseAI(msg.message);
-          const botMessage = await createMessage(
-            { ...usrObj, _id: usrObj.id },
-            {
-              text: response.answer,
-              roomId,
-              isBotMessage: true,
-              isChatbot: true,
-            }
-          );
-          socket.emit('roomNewMessage', botMessage);
+          await handleChatbotResponse({ msg, socket, roomId, userObject: usrObj });
         }
       } else {
         const newMessage = msg;

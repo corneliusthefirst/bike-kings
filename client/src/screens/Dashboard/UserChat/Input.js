@@ -9,6 +9,13 @@ import { ROOM_SOCKET } from '../../../constants/socket.routes';
 import { sendMessage } from '../../../api/messages';
 import { ROOM_MESSAGES_KEY } from '../../../constants/queryKeys';
 
+const rendezvousType = {
+  '1U': 'ROUTIER',
+  '2U': 'TOUT_TERRAIN',
+  '3U': 'SPORTIF',
+};
+
+
 function ChatInput(props) {
     const {room, user, isChatbot=false} = props;
     const [text, setText] = useState("");
@@ -30,6 +37,7 @@ function ChatInput(props) {
 
     //function for text input value change
     const handleChange = e => {
+      e.preventDefault()
       const chatText = e.target.value
 
       if (chatText.trim().length <= 3000) setText(chatText)
@@ -63,6 +71,13 @@ function ChatInput(props) {
         const data = new FormData()
         data.append('roomId', room.id)
         data.append('text', text.trim())
+        if(isChatbot){
+          data.append('isChatbot', true)
+          if(['1u', '1U', '2U', '2u', '3U', '3u'].includes(text.trim())){
+            console.log('typeUsageSet', text.trim().toUpperCase(), rendezvousType[text.trim().toUpperCase()])
+           localStorage.setItem('typeUsage', rendezvousType[text.trim().toUpperCase()])
+          }
+        }
   
         try {
           const result = await sendMessage(data)

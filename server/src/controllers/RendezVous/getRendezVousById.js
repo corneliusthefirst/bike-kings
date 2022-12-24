@@ -5,6 +5,6 @@ const catchAsync = require('../../utils/catchAsync');
 
 module.exports = catchAsync(async (req, res) => {
   const { rendezVousId } = req.params;
-  const group = await rendezVousService.getRendezVousById(rendezVousId);
-  res.status(httpStatus.CREATED).send(group);
+  const rendezvousList = await rendezVousService.getRendezVousById(rendezVousId);
+  res.status(httpStatus.CREATED).send(rendezvousList);
 });

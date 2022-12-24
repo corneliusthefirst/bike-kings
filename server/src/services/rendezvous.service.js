@@ -8,7 +8,18 @@ const ApiError = require('../utils/ApiError');
  */
 const getAllRendezVous = async () => {
   const allRendezVous = await RendezVous.find().populate({ path: 'userId' });
-  return allRendezVous;
+  return allRendezVous || [];
+};
+
+/**
+ * all rendez-vous per type
+ * @returns {Promise<User>}
+ */
+const getAllRendezVousPerType = async (type) => {
+  const allRendezVous = await RendezVous.find({
+    type,
+  }).populate({ path: 'userId' });
+  return allRendezVous || [];
 };
 
 /**
@@ -18,7 +29,7 @@ const getAllRendezVous = async () => {
  * @returns {Promise<User>}
  */
 const createRendezVous = async (user, body) => {
-  const { date } = body;
+  const { date, type } = body;
   const rendezVousMatch = await RendezVous.findOne({
     date,
   });
@@ -30,6 +41,7 @@ const createRendezVous = async (user, body) => {
   const rendezvous = await RendezVous.create({
     userId: user._id,
     date,
+    type,
   });
 
   return rendezvous;
@@ -53,10 +65,19 @@ const getRendezVousById = async (rendezVousId) => {
 /**
  * delete all user rendez-vous
  * @param {ObjectId} userId
- * @returns {Promise<User>}
+ * @returns {Promise<RendezVous.RendezVous>}
  */
 const deleteAllRendezVous = async (userId) => {
   await RendezVous.deleteMany({ userId });
+};
+
+/**
+ * get last rendez-vous
+ * @returns {Promise<RendezVous>}
+ */
+const getLastRendeVous = async () => {
+  const lastRendezVous = await RendezVous.find().sort({ createdAt: -1 }).limit(1).populate({ path: 'userId' });
+  return lastRendezVous[0];
 };
 
 module.exports = {
@@ -64,4 +85,6 @@ module.exports = {
   createRendezVous,
   getRendezVousById,
   deleteAllRendezVous,
+  getAllRendezVousPerType,
+  getLastRendeVous,
 };

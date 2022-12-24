@@ -12,3 +12,10 @@ exports.USER_STATUS = {
   BUSY: 'BUSY',
   AWAY: 'AWAY',
 };
+
+exports.RENDEZ_VOUS = {
+  DEFAULT: 'DEFAULT',
+  ROUTIER: 'ROUTIER',
+  TOUT_TERRAIN: 'TOUT_TERRAIN',
+  SPORTIF: 'SPORTIF',
+};

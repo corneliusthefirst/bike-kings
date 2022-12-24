@@ -20,5 +20,12 @@ router.put(
   rendezVousController.deleteAllRendezVous
 );
 router.get('/all-rendezvous', auth(), rendezVousController.getAllRendezVous);
+router.post(
+  '/all-rendezvous/type/:type',
+  auth(),
+  validate(validations.getAllRendezVousPerType),
+  rendezVousController.getAllRendezVousPerType
+);
+router.get('/last-rendezvous', rendezVousController.getLastRendezVous);
 
 module.exports = router;

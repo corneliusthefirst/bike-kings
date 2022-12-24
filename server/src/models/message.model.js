@@ -27,6 +27,9 @@ const messageSchema = mongoose.Schema(
     isBotMessage: {
       type: Boolean,
     },
+    suffix: {
+      type: String,
+    },
   },
   {
     timestamps: true,

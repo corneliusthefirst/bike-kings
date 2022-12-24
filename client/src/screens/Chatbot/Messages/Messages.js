@@ -6,9 +6,9 @@ import Message from './Message/Message';
 
 import './Messages.css';
 
-const Messages = ({ messages, lastMessageRef }) => (
+const Messages = ({ messages, lastMessageRef, room }) => (
   <ScrollToBottom className="messages pb-4">
-    {messages?.reverse().map((message, i) => <div ref={lastMessageRef} key={`${message}-${i}`}><Message message={message} /></div>)}
+    {messages?.reverse().map((message, i) => <div ref={lastMessageRef} key={`${message}-${i}`} ><Message room={room} index={i} messages={messages} message={message} /></div>)}
   </ScrollToBottom>
 );
 

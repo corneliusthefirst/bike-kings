@@ -1,7 +1,7 @@
 {
   "settings": {
     "languages": [
-      "en"
+      "fr"
     ],
     "tag": "nlp",
     "threshold": 0.5,
@@ -15,15 +15,15 @@
       "tag": "nlu-manager"
     },
     "locales": [
-      "en"
+      "fr"
     ],
     "languageNames": {},
     "domainManagers": {
-      "en": {
+      "fr": {
         "settings": {
-          "locale": "en",
+          "locale": "fr",
           "trainByDomain": false,
-          "tag": "domain-manager-en",
+          "tag": "domain-manager-fr",
           "nluByDomain": {
             "default": {
               "className": "NeuralNlu",
@@ -33,90 +33,226 @@
           "useStemDict": true
         },
         "stemDict": {
-          "for,goodby,now": {
-            "intent": "greetings.bye",
+          "1t": {
+            "intent": "help.1T",
             "domain": "default"
           },
-          "bye,care,take": {
-            "intent": "greetings.bye",
+          "2t": {
+            "intent": "help.2T",
             "domain": "default"
           },
-          "later,okay,see,you": {
-            "intent": "greetings.bye",
+          "3t": {
+            "intent": "help.3T",
             "domain": "default"
           },
-          "bye,for,now": {
-            "intent": "greetings.bye",
+          "1b": {
+            "intent": "help.1B",
             "domain": "default"
           },
-          "go,i,must": {
-            "intent": "greetings.bye",
+          "2b": {
+            "intent": "help.2B",
             "domain": "default"
           },
-          "hello": {
-            "intent": "greetings.hello",
+          "exit": {
+            "intent": "help.exit",
             "domain": "default"
           },
-          "hi": {
-            "intent": "greetings.hello",
+          "stop": {
+            "intent": "help.exit",
             "domain": "default"
           },
-          "howdi": {
-            "intent": "greetings.hello",
+          "quitt": {
+            "intent": "help.exit",
+            "domain": "default"
+          },
+          "non": {
+            "intent": "help.exit",
+            "domain": "default"
+          },
+          "n": {
+            "intent": "help.exit",
+            "domain": "default"
+          },
+          "1u": {
+            "intent": "help.1U",
+            "domain": "default"
+          },
+          "2u": {
+            "intent": "help.2U",
+            "domain": "default"
+          },
+          "3u": {
+            "intent": "help.3U",
+            "domain": "default"
+          },
+          "oui": {
+            "intent": "help.choisir.rendevous",
+            "domain": "default"
+          },
+          "y": {
+            "intent": "help.choisir.rendevous",
             "domain": "default"
           }
         },
         "intentDict": {
-          "greetings.bye": "default",
-          "greetings.hello": "default"
+          "help.1T": "default",
+          "help.2T": "default",
+          "help.3T": "default",
+          "help.1B": "default",
+          "help.2B": "default",
+          "help.exit": "default",
+          "help.1U": "default",
+          "help.2U": "default",
+          "help.3U": "default",
+          "help.choisir.rendevous": "default"
         },
         "sentences": [
           {
             "domain": "default",
-            "utterance": "goodbye for now",
-            "intent": "greetings.bye"
+            "utterance": "1T",
+            "intent": "help.1T"
           },
           {
             "domain": "default",
-            "utterance": "bye bye take care",
-            "intent": "greetings.bye"
+            "utterance": "2T",
+            "intent": "help.2T"
           },
           {
             "domain": "default",
-            "utterance": "okay see you later",
-            "intent": "greetings.bye"
+            "utterance": "3T",
+            "intent": "help.3T"
           },
           {
             "domain": "default",
-            "utterance": "bye for now",
-            "intent": "greetings.bye"
+            "utterance": "1t",
+            "intent": "help.1T"
           },
           {
             "domain": "default",
-            "utterance": "i must go",
-            "intent": "greetings.bye"
+            "utterance": "2t",
+            "intent": "help.2T"
           },
           {
             "domain": "default",
-            "utterance": "hello",
-            "intent": "greetings.hello"
+            "utterance": "3t",
+            "intent": "help.3T"
           },
           {
             "domain": "default",
-            "utterance": "hi",
-            "intent": "greetings.hello"
+            "utterance": "1B",
+            "intent": "help.1B"
           },
           {
             "domain": "default",
-            "utterance": "howdy",
-            "intent": "greetings.hello"
+            "utterance": "2B",
+            "intent": "help.2B"
+          },
+          {
+            "domain": "default",
+            "utterance": "1b",
+            "intent": "help.1B"
+          },
+          {
+            "domain": "default",
+            "utterance": "2b",
+            "intent": "help.2B"
+          },
+          {
+            "domain": "default",
+            "utterance": "exit",
+            "intent": "help.exit"
+          },
+          {
+            "domain": "default",
+            "utterance": "stop",
+            "intent": "help.exit"
+          },
+          {
+            "domain": "default",
+            "utterance": "EXIT",
+            "intent": "help.exit"
+          },
+          {
+            "domain": "default",
+            "utterance": "STOP",
+            "intent": "help.exit"
+          },
+          {
+            "domain": "default",
+            "utterance": "quitter",
+            "intent": "help.exit"
+          },
+          {
+            "domain": "default",
+            "utterance": "QUITTER",
+            "intent": "help.exit"
+          },
+          {
+            "domain": "default",
+            "utterance": "non",
+            "intent": "help.exit"
+          },
+          {
+            "domain": "default",
+            "utterance": "NON",
+            "intent": "help.exit"
+          },
+          {
+            "domain": "default",
+            "utterance": "N",
+            "intent": "help.exit"
+          },
+          {
+            "domain": "default",
+            "utterance": "1U",
+            "intent": "help.1U"
+          },
+          {
+            "domain": "default",
+            "utterance": "2U",
+            "intent": "help.2U"
+          },
+          {
+            "domain": "default",
+            "utterance": "3U",
+            "intent": "help.3U"
+          },
+          {
+            "domain": "default",
+            "utterance": "1u",
+            "intent": "help.1U"
+          },
+          {
+            "domain": "default",
+            "utterance": "2u",
+            "intent": "help.2U"
+          },
+          {
+            "domain": "default",
+            "utterance": "3u",
+            "intent": "help.3U"
+          },
+          {
+            "domain": "default",
+            "utterance": "OUI",
+            "intent": "help.choisir.rendevous"
+          },
+          {
+            "domain": "default",
+            "utterance": "oui",
+            "intent": "help.choisir.rendevous"
+          },
+          {
+            "domain": "default",
+            "utterance": "Y",
+            "intent": "help.choisir.rendevous"
           }
         ],
         "domains": {
           "master_domain": {
             "settings": {
-              "locale": "en",
-              "tag": "nlu-en",
+              "locale": "fr",
+              "tag": "nlu-fr",
               "keepStopwords": true,
               "nonefeatureValue": 1,
               "nonedeltaMultiplier": 1.2,
@@ -126,103 +262,122 @@
               "log": true
             },
             "features": {
-              "goodby": 1,
-              "for": 1,
-              "now": 1,
-              "bye": 1,
-              "take": 1,
-              "care": 1,
-              "okay": 1,
-              "see": 1,
-              "you": 1,
-              "later": 1,
-              "i": 1,
-              "must": 1,
-              "go": 1,
-              "hello": 1,
-              "hi": 1,
-              "howdi": 1
+              "1t": 1,
+              "2t": 1,
+              "3t": 1,
+              "1b": 1,
+              "2b": 1,
+              "exit": 1,
+              "stop": 1,
+              "quitt": 1,
+              "non": 1,
+              "n": 1,
+              "1u": 1,
+              "2u": 1,
+              "3u": 1,
+              "oui": 1,
+              "y": 1
             },
             "intents": {
-              "greetings.bye": 1,
-              "greetings.hello": 1
+              "help.1T": 1,
+              "help.2T": 1,
+              "help.3T": 1,
+              "help.1B": 1,
+              "help.2B": 1,
+              "help.exit": 1,
+              "help.1U": 1,
+              "help.2U": 1,
+              "help.3U": 1,
+              "help.choisir.rendevous": 1
             },
             "intentFeatures": {
-              "greetings.bye": {
-                "goodby": 1,
-                "for": 1,
-                "now": 1,
-                "bye": 1,
-                "take": 1,
-                "care": 1,
-                "okay": 1,
-                "see": 1,
-                "you": 1,
-                "later": 1,
-                "i": 1,
-                "must": 1,
-                "go": 1
+              "help.1T": {
+                "1t": 1
               },
-              "greetings.hello": {
-                "hello": 1,
-                "hi": 1,
-                "howdi": 1
+              "help.2T": {
+                "2t": 1
+              },
+              "help.3T": {
+                "3t": 1
+              },
+              "help.1B": {
+                "1b": 1
+              },
+              "help.2B": {
+                "2b": 1
+              },
+              "help.exit": {
+                "exit": 1,
+                "stop": 1,
+                "quitt": 1,
+                "non": 1,
+                "n": 1
+              },
+              "help.1U": {
+                "1u": 1
+              },
+              "help.2U": {
+                "2u": 1
+              },
+              "help.3U": {
+                "3u": 1
+              },
+              "help.choisir.rendevous": {
+                "oui": 1,
+                "y": 1
               }
             },
             "featuresToIntent": {
-              "goodby": [
-                "greetings.bye"
+              "1t": [
+                "help.1T"
               ],
-              "for": [
-                "greetings.bye"
+              "2t": [
+                "help.2T"
               ],
-              "now": [
-                "greetings.bye"
+              "3t": [
+                "help.3T"
               ],
-              "bye": [
-                "greetings.bye"
+              "1b": [
+                "help.1B"
               ],
-              "take": [
-                "greetings.bye"
+              "2b": [
+                "help.2B"
               ],
-              "care": [
-                "greetings.bye"
+              "exit": [
+                "help.exit"
               ],
-              "okay": [
-                "greetings.bye"
+              "stop": [
+                "help.exit"
               ],
-              "see": [
-                "greetings.bye"
+              "quitt": [
+                "help.exit"
               ],
-              "you": [
-                "greetings.bye"
+              "non": [
+                "help.exit"
               ],
-              "later": [
-                "greetings.bye"
+              "n": [
+                "help.exit"
               ],
-              "i": [
-                "greetings.bye"
+              "1u": [
+                "help.1U"
               ],
-              "must": [
-                "greetings.bye"
+              "2u": [
+                "help.2U"
               ],
-              "go": [
-                "greetings.bye"
+              "3u": [
+                "help.3U"
               ],
-              "hello": [
-                "greetings.hello"
+              "oui": [
+                "help.choisir.rendevous"
               ],
-              "hi": [
-                "greetings.hello"
-              ],
-              "howdi": [
-                "greetings.hello"
+              "y": [
+                "help.choisir.rendevous"
               ]
             },
             "neuralNetwork": {
               "settings": {
-                "locale": "en",
-                "tag": "nlu-en",
+                "locale": "fr",
+                "tag": "nlu-fr",
                 "keepStopwords": true,
                 "nonefeatureValue": 1,
                 "nonedeltaMultiplier": 1.2,
@@ -232,65 +387,214 @@
                 "log": true
               },
               "features": [
-                "goodby",
-                "for",
-                "now",
-                "bye",
-                "take",
-                "care",
-                "okay",
-                "see",
-                "you",
-                "later",
-                "i",
-                "must",
-                "go",
-                "hello",
-                "hi",
-                "howdi"
+                "1t",
+                "2t",
+                "3t",
+                "1b",
+                "2b",
+                "exit",
+                "stop",
+                "quitt",
+                "non",
+                "n",
+                "1u",
+                "2u",
+                "3u",
+                "oui",
+                "y"
               ],
               "intents": [
-                "greetings.bye",
-                "greetings.hello"
+                "help.1T",
+                "help.2T",
+                "help.3T",
+                "help.1B",
+                "help.2B",
+                "help.exit",
+                "help.1U",
+                "help.2U",
+                "help.3U",
+                "help.choisir.rendevous"
               ],
               "perceptrons": [
                 [
-                  3.547337532043457,
-                  3.835749387741089,
-                  3.835749387741089,
-                  3.9585132598876953,
-                  3.6766104698181152,
-                  3.6766104698181152,
-                  2.8525924682617188,
-                  2.8525924682617188,
-                  2.8525924682617188,
-                  2.8525924682617188,
-                  3.805833339691162,
-                  3.805833339691162,
-                  3.805833339691162,
-                  -2.83388614654541,
-                  -2.817099094390869,
-                  -2.7995951175689697,
-                  2.85592960855999
+                  13.368766784667969,
+                  -0.8592367172241211,
+                  -0.8544192314147949,
+                  -0.8804199695587158,
+                  -0.8745043277740479,
+                  -0.8606889843940735,
+                  -0.8571027517318726,
+                  -0.8497902750968933,
+                  -0.844536542892456,
+                  -0.7741168737411499,
+                  -0.8311761021614075,
+                  -0.829668402671814,
+                  -0.828047513961792,
+                  -0.823097825050354,
+                  -0.7357918620109558,
+                  0.8265192824212778
                 ],
                 [
-                  -1.8950731754302979,
-                  -2.457380771636963,
-                  -2.457380771636963,
-                  -2.644037961959839,
-                  -2.081730604171753,
-                  -2.081730604171753,
-                  -1.7042158842086792,
-                  -1.7042158842086792,
-                  -1.7042158842086792,
-                  -1.7042158842086792,
-                  -2.267854690551758,
-                  -2.267854690551758,
-                  -2.267854690551758,
-                  7.381767749786377,
-                  7.414748668670654,
-                  7.374270915985107,
-                  6.835164150442489
+                  -0.8222774267196655,
+                  13.369142532348633,
+                  -0.8586423993110657,
+                  -0.8867512941360474,
+                  -0.8804191946983337,
+                  -0.8644415736198425,
+                  -0.8603681921958923,
+                  -0.852051317691803,
+                  -0.8461382985115051,
+                  -0.7767744064331055,
+                  -0.8319112062454224,
+                  -0.8305681347846985,
+                  -0.8290649652481079,
+                  -0.8244495391845703,
+                  -0.7393032908439636,
+                  0.8268406558184902
+                ],
+                [
+                  -0.8236331343650818,
+                  -0.821908712387085,
+                  13.36950969696045,
+                  -0.8937061429023743,
+                  -0.8867563605308533,
+                  -0.868667483329773,
+                  -0.8640631437301636,
+                  -0.8545921444892883,
+                  -0.8479135632514954,
+                  -0.7793117165565491,
+                  -0.8326878547668457,
+                  -0.8313793540000916,
+                  -0.8299891352653503,
+                  -0.8256941437721252,
+                  -0.7426937222480774,
+                  0.8271467073474069
+                ],
+                [
+                  -0.8174778819084167,
+                  -0.8152226805686951,
+                  -0.8128522038459778,
+                  13.370603561401367,
+                  -0.8582251667976379,
+                  -0.8905367255210876,
+                  -0.8841916918754578,
+                  -0.8704753518104553,
+                  -0.8606828451156616,
+                  -0.7900080680847168,
+                  -0.8396197557449341,
+                  -0.8375037312507629,
+                  -0.8356572985649109,
+                  -0.8317267298698425,
+                  -0.7560909390449524,
+                  0.8285666843144536
+                ],
+                [
+                  -0.8190410733222961,
+                  -0.8169060945510864,
+                  -0.8146553039550781,
+                  -0.8205230832099915,
+                  13.370899200439453,
+                  -0.8993412852287292,
+                  -0.8905680179595947,
+                  -0.8754560947418213,
+                  -0.8649117350578308,
+                  -0.7922306656837463,
+                  -0.8412614464759827,
+                  -0.8388749361038208,
+                  -0.8368080258369446,
+                  -0.832481324672699,
+                  -0.7591120004653931,
+                  0.8284796609688094
+                ],
+                [
+                  -4.140048503875732,
+                  -4.130822658538818,
+                  -4.12105131149292,
+                  -4.084106922149658,
+                  -4.071953296661377,
+                  10.12879467010498,
+                  10.125964164733887,
+                  10.097787857055664,
+                  10.069096565246582,
+                  9.217092514038086,
+                  -4.233449459075928,
+                  -4.22314453125,
+                  -4.2153215408325195,
+                  -4.201320171356201,
+                  -3.8643441200256348,
+                  4.191348219388265
+                ],
+                [
+                  -0.8536397814750671,
+                  -0.8506553769111633,
+                  -0.8478885293006897,
+                  -0.8407453894615173,
+                  -0.8391169309616089,
+                  -0.8343514204025269,
+                  -0.8325508236885071,
+                  -0.82777339220047,
+                  -0.8232120871543884,
+                  -0.7270781397819519,
+                  13.366926193237305,
+                  -0.859330952167511,
+                  -0.8549749851226807,
+                  -0.8840030431747437,
+                  -0.8046538233757019,
+                  0.8370398508973713
+                ],
+                [
+                  -0.8572239279747009,
+                  -0.8535082936286926,
+                  -0.8502986431121826,
+                  -0.8422395586967468,
+                  -0.8404003977775574,
+                  -0.8357265591621399,
+                  -0.8340505957603455,
+                  -0.8295753598213196,
+                  -0.8252588510513306,
+                  -0.7312076091766357,
+                  -0.8244853615760803,
+                  13.366989135742188,
+                  -0.8587552309036255,
+                  -0.8903800845146179,
+                  -0.8069484233856201,
+                  0.8369243723846175
+                ],
+                [
+                  -0.8613252639770508,
+                  -0.857032299041748,
+                  -0.8532959222793579,
+                  -0.8439074754714966,
+                  -0.8418194651603699,
+                  -0.8369463086128235,
+                  -0.8353933691978455,
+                  -0.8312171101570129,
+                  -0.8271442651748657,
+                  -0.7352074384689331,
+                  -0.8261809349060059,
+                  -0.8243981599807739,
+                  13.367077827453613,
+                  -0.8991746306419373,
+                  -0.8091645836830139,
+                  0.8368741895073099
+                ],
+                [
+                  -1.6702576875686646,
+                  -1.6680595874786377,
+                  -1.665649175643921,
+                  -1.6560001373291016,
+                  -1.6526421308517456,
+                  -1.6411198377609253,
+                  -1.6368972063064575,
+                  -1.6259019374847412,
+                  -1.615731954574585,
+                  -1.4190486669540405,
+                  -1.579856276512146,
+                  -1.5735960006713867,
+                  -1.5671435594558716,
+                  12.627917289733887,
+                  11.652935028076172,
+                  1.6760737093907319
                 ]
               ]
             }
@@ -301,36 +605,116 @@
     "intentDomains": {},
     "extraSentences": [
       [
-        "en",
-        "goodbye for now"
+        "fr",
+        "1T"
       ],
       [
-        "en",
-        "bye bye take care"
+        "fr",
+        "2T"
       ],
       [
-        "en",
-        "okay see you later"
+        "fr",
+        "3T"
       ],
       [
-        "en",
-        "bye for now"
+        "fr",
+        "1t"
       ],
       [
-        "en",
-        "i must go"
+        "fr",
+        "2t"
       ],
       [
-        "en",
-        "hello"
+        "fr",
+        "3t"
       ],
       [
-        "en",
-        "hi"
+        "fr",
+        "1B"
       ],
       [
-        "en",
-        "howdy"
+        "fr",
+        "2B"
+      ],
+      [
+        "fr",
+        "1b"
+      ],
+      [
+        "fr",
+        "2b"
+      ],
+      [
+        "fr",
+        "exit"
+      ],
+      [
+        "fr",
+        "stop"
+      ],
+      [
+        "fr",
+        "EXIT"
+      ],
+      [
+        "fr",
+        "STOP"
+      ],
+      [
+        "fr",
+        "quitter"
+      ],
+      [
+        "fr",
+        "QUITTER"
+      ],
+      [
+        "fr",
+        "non"
+      ],
+      [
+        "fr",
+        "NON"
+      ],
+      [
+        "fr",
+        "N"
+      ],
+      [
+        "fr",
+        "1U"
+      ],
+      [
+        "fr",
+        "2U"
+      ],
+      [
+        "fr",
+        "3U"
+      ],
+      [
+        "fr",
+        "1u"
+      ],
+      [
+        "fr",
+        "2u"
+      ],
+      [
+        "fr",
+        "3u"
+      ],
+      [
+        "fr",
+        "OUI"
+      ],
+      [
+        "fr",
+        "oui"
+      ],
+      [
+        "fr",
+        "Y"
       ]
     ]
   },
@@ -347,21 +731,55 @@
       "tag": "nlg-manager"
     },
     "responses": {
-      "en": {
-        "greetings.bye": [
+      "fr": {
+        "help.1T": [
           {
-            "answer": "Till next time"
-          },
-          {
-            "answer": "see you soon!"
+            "answer": "Quel est l'année de creation de votre moto, choisissez une année entre 1980 - 2022?"
           }
         ],
-        "greetings.hello": [
+        "help.2T": [
           {
-            "answer": "Hey there!"
-          },
+            "answer": "Quel est le type d’usage de votre moto? Repondez un entre 1U...3U ?\n1U-ROUTIER\n2U-TOUT TERRAIN\n3U-SPORTIF"
+          }
+        ],
+        "help.3T": [
           {
-            "answer": "Greetings!"
+            "answer": "Quel type de contact souhaitez vous. Repondez un entre 1B et 2B?\n1B-Par mail\n2B-Par telephone"
+          }
+        ],
+        "help.1B": [
+          {
+            "answer": "l'email de contact est bikekings@gmail.com"
+          }
+        ],
+        "help.2B": [
+          {
+            "answer": "le numero mobile est 06 06 06 06 06"
+          }
+        ],
+        "help.exit": [
+          {
+            "answer": "Merci pour votre visite, à bientôt !"
+          }
+        ],
+        "help.1U": [
+          {
+            "answer": "Nous vous proposons un essaie routier.\nVeuillez Choisir une date pour un essaie routier ?"
+          }
+        ],
+        "help.2U": [
+          {
+            "answer": "Nous vous proposons un essaie tout terrain.\nVeuillez Choisir une date  pour un essaie tout terrain ?"
+          }
+        ],
+        "help.3U": [
+          {
+            "answer": "Nous vous proposons un essai sur piste.\nVeuillez Choisir une date pour un essai sur piste ?"
+          }
+        ],
+        "help.choisir.rendevous": [
+          {
+            "answer": "Veuillez Choisir une date pour le rendez-vous ?"
           }
         ]
       }
