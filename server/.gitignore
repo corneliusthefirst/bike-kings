@@ -13,3 +13,5 @@ coverage
 
 mongodata
 redisdata
+
+.DS_Store
