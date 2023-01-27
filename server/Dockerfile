@@ -5,7 +5,7 @@ COPY package.json /app/package.json
 
 WORKDIR /app
 
-RUN npm install
+RUN yarn install
 RUN apk add --no-cache bash
 
 COPY . .
