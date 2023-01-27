@@ -8,6 +8,7 @@
     "autoLoad": true,
     "autoSave": true,
     "modelFileName": "model.nlp",
+    "executeActionsBeforeAnswers": false,
     "calculateSentiment": true
   },
   "nluManager": {
