@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 4000
 
-CMD ["yarn", "run", "start"]
+CMD ["yarn", "run", "dev"]

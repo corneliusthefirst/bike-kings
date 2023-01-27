@@ -10,4 +10,6 @@ RUN apk add --no-cache bash
 
 COPY . .
 
+EXPOSE 3000
+
 CMD ["yarn", "run", "start"]
