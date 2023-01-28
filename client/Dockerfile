@@ -5,7 +5,7 @@ COPY package.json /app/package.json
 
 WORKDIR /app
 
-RUN npm install --legacy-peer-deps
+RUN yarn install
 
 COPY . .
 
