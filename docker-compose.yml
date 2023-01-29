@@ -1,66 +1,66 @@
 version: '3.8'
 
 services:
-  # client-bike:
-  #   container_name: client-bike
-  #   build:
-  #     context: ./client
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./client:/app
-  #     - /app/node_modules
-  #   ports:
-  #     - '3000:3000'
-  #   restart: 'unless-stopped'
-  #   networks:
-  #     - app_network
-  #   environment:
-  #     - CHOKIDAR_USEPOLLING=true
-      
-  redis:
-    image: 'bitnami/redis:latest'
-    container_name: redis_chat
-    volumes:
-      - ./server/redisdata:/bitnami/redis/data
-    ports:
-      - '6379:6379'
-    environment:
-      - REDIS_AOF_ENABLED=no
-      - ALLOW_EMPTY_PASSWORD=yes
-    networks:
-      - chat
-
-  mongodb:
-    hostname: mongo_chat
-    container_name: mongo_chat
-    image: mongo
-    volumes:
-      - ./server/mongodata:/data/db
-    ports:
-      - '27017:27017'
-    networks:
-      - chat
-
-  server-bike:
-    container_name: server-bike
+  client-bike:
+    container_name: client-bike
     build:
-      context: ./server
+      context: ./client
       dockerfile: Dockerfile
     volumes:
-      - ./server:/app
+      - ./client:/app
       - /app/node_modules
     ports:
-      - '4000:4000'
+      - '3000:3000'
     restart: 'unless-stopped'
     networks:
       - app_network
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      
+  # redis:
+  #   image: 'bitnami/redis:latest'
+  #   container_name: redis_chat
+  #   volumes:
+  #     - ./server/redisdata:/bitnami/redis/data
+  #   ports:
+  #     - '6379:6379'
+  #   environment:
+  #     - REDIS_AOF_ENABLED=no
+  #     - ALLOW_EMPTY_PASSWORD=yes
+  #   networks:
+  #     - chat
+
+  # mongodb:
+  #   hostname: mongo_chat
+  #   container_name: mongo_chat
+  #   image: mongo
+  #   volumes:
+  #     - ./server/mongodata:/data/db
+  #   ports:
+  #     - '27017:27017'
+  #   networks:
+  #     - chat
+
+  # server-bike:
+  #   container_name: server-bike
+  #   build:
+  #     context: ./server
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./server:/app
+  #     - /app/node_modules
+  #   ports:
+  #     - '4000:4000'
+  #   restart: 'unless-stopped'
+  #   networks:
+  #     - app_network
 
 networks:
   app_network:
     driver: bridge
 
-  chat:
-    driver: bridge
+#   chat:
+#     driver: bridge
 
-volumes:
-  mongodata:
+# volumes:
+#   mongodata:
