@@ -38,13 +38,15 @@ const Register = (props) => {
         initialValues: {
             username: '',
             email: '',
-            password: ''
+            password: '',
+            isAdmin: false
         },
         validationSchema: Yup.object({
             username: Yup.string().required('Required'),
             email: Yup.string().email('Enter proper email').required('Required'),
             password: Yup.string()
-                .required('Required')
+                .required('Required'),
+            isAdmin: Yup.boolean()
         }),
         onSubmit: values => {
             console.log("val1",values);
@@ -150,6 +152,14 @@ const Register = (props) => {
                                                     ) : null}
 
                                                 </InputGroup>
+
+                                                <div className="w-full flex justify-end items-center mb-4">
+                                                <div className="form-check mt-2">
+                                                <Input    value={formik.values.isAdmin} name="isAdmin"  onChange={formik.handleChange} type="checkbox" className="form-check-input" id="isAdmin-check" />
+                                                <Label className="form-check-label" >{t('Set As Admin')}</Label>
+                                               </div>
+                                                </div>
+
                                             </FormGroup>
 
 

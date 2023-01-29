@@ -107,5 +107,6 @@
     "Search users.." : "Search users..",
     "Share" : "Share",
     "Block" : "Block",
-    "Remove" : "Remove"
+    "Remove" : "Remove",
+    "Set As Admin" : "Set As Admin"
 }
