@@ -5,6 +5,7 @@ const register = {
     email: Joi.string().required().email(),
     password: Joi.string().required(),
     username: Joi.string().min(4).required(),
+    isAdmin: Joi.boolean(),
   }),
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const httpStatus = require('http-status');
 const ShortUniqueId = require('short-unique-id');
 const { User } = require('../models');
@@ -12,13 +13,15 @@ const uid = new ShortUniqueId({ length: 4, dictionary: [0, 1, 2, 3, 4, 5, 6, 7, 
  * @returns {Promise<User>}
  */
 const createUser = async (userBody) => {
-  if (await User.isEmailTaken(userBody.email)) {
+  const { isAdmin, ...body } = userBody;
+  if (await User.isEmailTaken(body.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
 
-  userBody.shortId = uid();
-  userBody.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-  const user = await User.create(userBody);
+  body.shortId = uid();
+  body.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+  body.role = isAdmin ? 'admin' : 'user';
+  const user = await User.create(body);
   return user;
 };
 
