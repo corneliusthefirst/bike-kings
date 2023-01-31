@@ -28,7 +28,7 @@ services:
       - REDIS_AOF_ENABLED=no
       - ALLOW_EMPTY_PASSWORD=yes
     networks:
-      - chat
+      - app_network
 
   mongodb:
     hostname: mongo_chat
@@ -39,7 +39,7 @@ services:
     ports:
       - '27017:27017'
     networks:
-      - chat
+      - app_network
 
   server-bike:
     container_name: server-bike
@@ -57,9 +57,6 @@ services:
 
 networks:
   app_network:
-    driver: bridge
-
-  chat:
     driver: bridge
 
 volumes:
