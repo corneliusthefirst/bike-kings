@@ -110,7 +110,8 @@ const ChatBotRobot = (props) => {
                     {id: room?.id}
                 }
                 user={user}
-                isChatbot={true}/>
+                isChatbot={true}
+                />
         </div>
     );
 }

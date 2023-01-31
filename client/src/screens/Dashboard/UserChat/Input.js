@@ -17,7 +17,7 @@ const rendezvousType = {
 
 
 function ChatInput(props) {
-    const {room, user, isChatbot=false} = props;
+    const {room, user, isChatbot=false, isGroup = false} = props;
     const [text, setText] = useState("");
     const [isOpen, setisOpen] = useState(false);
     const tokens = getTokens()
@@ -71,6 +71,7 @@ function ChatInput(props) {
         const data = new FormData()
         data.append('roomId', room.id)
         data.append('text', text.trim())
+        data.append('isGroup', isGroup)
         if(isChatbot){
           data.append('isChatbot', true)
           if(['1u', '1U', '2U', '2u', '3U', '3u'].includes(text.trim())){
@@ -91,7 +92,7 @@ function ChatInput(props) {
               'sender',
               'receiver'
             ).id,
-            isChatbot: isChatbot,
+            isChatbot: isChatbot
           })
   
           setText('')

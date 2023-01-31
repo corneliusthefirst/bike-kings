@@ -16,13 +16,13 @@ function friendId(user, object) {
  * @returns {Promise<User>}
  */
 const createMessage = async (user, body) => {
-  const { roomId, text, isBotMessage = false, isChatbot = false, suffix = '' } = body;
+  const { roomId, text, isBotMessage = false, isChatbot = false, isGroup = false, suffix = '' } = body;
   const roomMatch = await Room.findOne({
     _id: roomId,
   });
   // eslint-disable-next-line no-console
   console.log('roomMatchhere', body);
-  if (roomMatch && !isChatbot && !isBotMessage) {
+  if (roomMatch && !isGroup && !isChatbot && !isBotMessage) {
     const room = await Room.findOne({
       $or: [{ sender: user._id }, { receiver: user._id }],
 

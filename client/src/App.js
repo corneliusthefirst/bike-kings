@@ -116,9 +116,9 @@ const Main = () => {
         sse.addEventListener('message', (e) => {
             //update last rendezvous to local storage
             const rendezvousBefore = JSON.parse(localStorage.getItem('lastRendezvous'));
-            const currentRendevous = JSON.parse(e.data);
+            const currentRendevous = e.data !== "undefined" ? JSON.parse(e.data) : null
 
-            if(rendezvousBefore && rendezvousBefore.id !== currentRendevous.id){
+            if(currentRendevous && rendezvousBefore && rendezvousBefore.id !== currentRendevous.id){
             //notify user
             setNotifMessage(`A new RendezVous was added by ${currentRendevous.userId.username} for ${moment(currentRendevous.date).format('	LL')}`);
             setOpen(true);
@@ -126,12 +126,12 @@ const Main = () => {
             }
             else{
             //update local storage
-            localStorage.setItem('lastRendezvous', JSON.stringify(currentRendevous));
+            currentRendevous && localStorage.setItem('lastRendezvous', JSON.stringify(currentRendevous));
             }
         });
 
         sse.addEventListener('error', (e) => {
-            console.error('Error: ',  e);
+            console.log('Error: ',  e);
         });
 
         return () => {

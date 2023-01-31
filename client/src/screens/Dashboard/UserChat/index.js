@@ -163,8 +163,11 @@ function UserChat(props) {
                             </div>
                         </div>
 
-                    {showInput() ?    <Input room={room}
-                            user={user}/> :
+                    {showInput() ?    <Input
+                            room={room}
+                            user={user}
+                            isGroup={room && room?.groupName}
+                            /> :
                              <div style={{position: 'absolute', bottom: 0, maxWidth: `calc(100vw - ${450}px)`}} className="w-full flex pl-2 pt-5 pb-3 border-top bg-white items-center justify-center">
                                  <p className='text-red-400 text-lg font-semibold'>{
                                     room.groupName ? '###- This group has been deleted -###' :
