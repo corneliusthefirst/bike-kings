@@ -1,21 +1,21 @@
 version: '3.8'
 
 services:
-  client-bike:
-    container_name: client-bike
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    volumes:
-      - ./client:/app
-      - /app/node_modules
-    ports:
-      - '3000:3000'
-    restart: 'unless-stopped'
-    networks:
-      - app_network
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+  # client-bike:
+  #   container_name: client-bike
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./client:/app
+  #     - /app/node_modules
+  #   ports:
+  #     - '3000:3000'
+  #   restart: 'unless-stopped'
+  #   networks:
+  #     - app_network
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
       
   redis:
     image: 'bitnami/redis:latest'
