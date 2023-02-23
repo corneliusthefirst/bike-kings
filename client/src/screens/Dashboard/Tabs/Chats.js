@@ -14,19 +14,19 @@ import {setStoreCurrentChat} from '../../../redux/index'
 const Chats = (props) => {
     const {setCurrentChat, currentChat} = props;
     const user  = getLoggedInUser()
-    const { data: rooms } = GetOpenRooms()
+    const { data: newrooms } = GetOpenRooms()
+    const rooms  = newrooms?.filter((item) => item?.isChatbot === false) || []
+
     const [searchChat, setSearchChat] = React.useState("");
     const [conversation, setConversation] = React.useState(rooms);
 
-
-    console.log("roomsbro", rooms, user)
 
     useEffect(() => {
         setConversation(rooms)
         if(rooms?.length && !currentChat){
             setCurrentChat({room: rooms[0], user: user})
         }
-    }, [rooms, setCurrentChat, user, currentChat, props])
+    }, [newrooms, setCurrentChat, user, currentChat, props])
 
     const   handleChange = (e) => {
         setSearchChat(e.target.value);
